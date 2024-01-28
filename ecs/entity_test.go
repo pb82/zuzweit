@@ -19,5 +19,7 @@ func Test_EntityRemoveComponent(t *testing.T) {
 
 	assert.Len(t, e.components, 1)
 	e.RemoveComponent(TranslateComponentType)
+	assert.Len(t, e.components, 1)
+	e.Collect()
 	assert.Len(t, e.components, 0)
 }

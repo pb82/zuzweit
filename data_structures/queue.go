@@ -10,6 +10,10 @@ func (q *Queue[T]) Push(t T) {
 	q.data = append(q.data, t)
 }
 
+func (q *Queue[T]) Empty() bool {
+	return len(q.data) == 0
+}
+
 func (q *Queue[T]) Pop() (T, error) {
 	if len(q.data) == 0 {
 		var t T
