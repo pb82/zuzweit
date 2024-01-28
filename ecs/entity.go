@@ -1,13 +1,16 @@
 package ecs
 
-import "github.com/google/uuid"
+import (
+	"github.com/google/uuid"
+	"zuzweit/data_structures"
+)
 
 type Entity struct {
 	id         uuid.UUID
 	active     bool
 	components []Component
 
-	pendingRemoval []ComponentType
+	pendingRemoval []data_structures.Queue[Component]
 }
 
 func NewEntity() *Entity {
@@ -28,6 +31,14 @@ func (e *Entity) HasComponent(componentType ComponentType) bool {
 		}
 	}
 	return false
+}
+
+func (e *Entity) addComponent(component Component) Component {
+	if e.HasComponent(component.Type()) {
+		return component
+	}
+	e.components = append(e.components, component)
+	return component
 }
 
 func (e *Entity) RemoveComponent(componentType ComponentType) {

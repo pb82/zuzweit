@@ -6,13 +6,11 @@ type TranslateComponent struct {
 }
 
 func NewTranslateComponent(parent *Entity) *TranslateComponent {
-	c := &TranslateComponent{
+	return parent.addComponent(&TranslateComponent{
 		parent: parent,
 		X:      0,
 		Y:      0,
-	}
-	parent.components = append(parent.components, c)
-	return c
+	}).(*TranslateComponent)
 }
 
 func (t *TranslateComponent) Update(_ float64) {
