@@ -43,13 +43,14 @@ func (e *Entity) addComponent(component Component) Component {
 }
 
 func (e *Entity) removeComponent(componentType ComponentType) {
-	e.components = make([]Component, len(e.components)-1)
+	newComponents := make([]Component, 0)
 	for _, component := range e.components {
 		if component.Type() == componentType {
 			continue
 		}
-		e.components = append(e.components, component)
+		newComponents = append(newComponents, component)
 	}
+	e.components = newComponents
 }
 
 func (e *Entity) RemoveComponent(componentType ComponentType) {
