@@ -17,9 +17,9 @@ func Test_EntityRemoveComponent(t *testing.T) {
 	e := NewEntity()
 	_ = NewTranslateComponent(e)
 
-	assert.Len(t, e.components, 1)
+	assert.Equal(t, e.components.Size(), 1)
 	e.RemoveComponent(TranslateComponentType)
-	assert.Len(t, e.components, 1)
+	assert.Equal(t, e.components.Size(), 1)
 	e.Collect()
-	assert.Len(t, e.components, 0)
+	assert.Equal(t, e.components.Size(), 0)
 }

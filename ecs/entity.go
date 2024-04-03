@@ -7,10 +7,9 @@ import (
 )
 
 type Entity struct {
-	id         uuid.UUID
-	active     bool
-	components []Component
-
+	id             uuid.UUID
+	active         bool
+	components     data_structures.List[Component]
 	pendingRemoval data_structures.Queue[ComponentType]
 }
 
@@ -26,31 +25,23 @@ func (e *Entity) Id() uuid.UUID {
 }
 
 func (e *Entity) HasComponent(componentType ComponentType) bool {
-	for _, component := range e.components {
-		if component.Type() == componentType {
-			return true
-		}
-	}
-	return false
+	return e.components.Has(func(c Component) bool {
+		return c.Type() == componentType
+	})
 }
 
 func (e *Entity) addComponent(component Component) Component {
 	if e.HasComponent(component.Type()) {
 		return component
 	}
-	e.components = append(e.components, component)
+	e.components.Add(component)
 	return component
 }
 
 func (e *Entity) removeComponent(componentType ComponentType) {
-	newComponents := make([]Component, 0)
-	for _, component := range e.components {
-		if component.Type() == componentType {
-			continue
-		}
-		newComponents = append(newComponents, component)
-	}
-	e.components = newComponents
+	e.components.Remove(func(c Component) bool {
+		return c.Type() == componentType
+	})
 }
 
 func (e *Entity) RemoveComponent(componentType ComponentType) {
@@ -69,13 +60,13 @@ func (e *Entity) Collect() {
 }
 
 func (e *Entity) Update(dt float64) {
-	for _, component := range e.components {
-		component.Update(dt)
-	}
+	e.components.ForEach(func(c Component) {
+		c.Update(dt)
+	})
 }
 
 func (e *Entity) Render(screen *ebiten.Image) {
-	for _, component := range e.components {
-		component.Render(screen)
-	}
+	e.components.ForEach(func(c Component) {
+		c.Render(screen)
+	})
 }

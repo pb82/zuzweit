@@ -10,11 +10,11 @@ func Test_EntityManager_AddEntity(t *testing.T) {
 	e1 := manager.AddEntity()
 	_ = manager.AddEntity()
 
-	assert.Len(t, manager.entities, 0)
+	assert.Equal(t, manager.entities.Size(), 0)
 	manager.Collect()
-	assert.Len(t, manager.entities, 2)
+	assert.Equal(t, manager.entities.Size(), 2)
 	manager.RemoveEntity(e1)
-	assert.Len(t, manager.entities, 2)
+	assert.Equal(t, manager.entities.Size(), 2)
 	manager.Collect()
-	assert.Len(t, manager.entities, 1)
+	assert.Equal(t, manager.entities.Size(), 1)
 }

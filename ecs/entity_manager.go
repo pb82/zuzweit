@@ -6,8 +6,7 @@ import (
 )
 
 type EntityManager struct {
-	entities []*Entity
-
+	entities      data_structures.List[*Entity]
 	pendingAdd    data_structures.Queue[*Entity]
 	pendingRemove data_structures.Queue[*Entity]
 }
@@ -27,21 +26,16 @@ func (e *EntityManager) RemoveEntity(entity *Entity) {
 }
 
 func (e *EntityManager) removeEntity(toRemove *Entity) {
-	newEntities := make([]*Entity, 0)
-	for _, entity := range e.entities {
-		if toRemove == entity {
-			continue
-		}
-		newEntities = append(newEntities, entity)
-	}
-	e.entities = newEntities
+	e.entities.Remove(func(e *Entity) bool {
+		return e == toRemove
+	})
 }
 
 func (e *EntityManager) Collect() {
 	// collect pending removal components from entities
-	for _, entity := range e.entities {
-		entity.Collect()
-	}
+	e.entities.ForEach(func(e *Entity) {
+		e.Collect()
+	})
 
 	// collect pending removal entities
 	for {
@@ -60,18 +54,18 @@ func (e *EntityManager) Collect() {
 		}
 
 		entity, _ := e.pendingAdd.Pop()
-		e.entities = append(e.entities, entity)
+		e.entities.Add(entity)
 	}
 }
 
 func (e *EntityManager) Update(dt float64) {
-	for _, entity := range e.entities {
-		entity.Update(dt)
-	}
+	e.entities.ForEach(func(e *Entity) {
+		e.Update(dt)
+	})
 }
 
 func (e *EntityManager) Render(screen *ebiten.Image) {
-	for _, entity := range e.entities {
-		entity.Render(screen)
-	}
+	e.entities.ForEach(func(e *Entity) {
+		e.Render(screen)
+	})
 }

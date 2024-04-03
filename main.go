@@ -1,11 +1,20 @@
 package main
 
 import (
+	"bytes"
+	_ "embed"
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"image/color"
 	"time"
 	"zuzweit/ecs"
+
+	_ "image/png"
 )
+
+//go:embed tiles.png
+var _tiles []byte
+var tiles *ebiten.Image
 
 var (
 	fillColor = color.RGBA{
@@ -19,6 +28,10 @@ var (
 type Game struct {
 	entityManager *ecs.EntityManager
 	milliseconds  int64
+}
+
+func init() {
+	tiles, _, _ := ebitenutil.NewImageFromReader(bytes.NewReader(_tiles))
 }
 
 func (g *Game) Update() error {
