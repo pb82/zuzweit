@@ -8,6 +8,7 @@ require (
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/hajimehoshi/ebiten/v2 v2.6.3 // indirect
 	github.com/jezek/xgb v1.1.0 // indirect
+	github.com/lafriks/go-tiled v0.12.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/stretchr/objx v0.5.1 // indirect
 	github.com/stretchr/testify v1.8.4 // indirect
