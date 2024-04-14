@@ -2,6 +2,7 @@ package ecs
 
 import (
 	"github.com/hajimehoshi/ebiten/v2"
+	"zuzweit/api"
 	"zuzweit/data_structures"
 )
 
@@ -58,13 +59,13 @@ func (e *EntityManager) Collect() {
 	}
 }
 
-func (e *EntityManager) Update(dt float64) {
+func (e *EntityManager) Update(dt float64, context *api.GameContext) {
 	e.entities.ForEach(func(e *Entity) {
 		e.Update(dt)
 	})
 }
 
-func (e *EntityManager) Render(screen *ebiten.Image) {
+func (e *EntityManager) Render(screen *ebiten.Image, context *api.GameContext) {
 	e.entities.ForEach(func(e *Entity) {
 		e.Render(screen)
 	})
