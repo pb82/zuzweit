@@ -3,8 +3,10 @@ package scenes
 import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
+	"github.com/joelschutz/stagehand"
 	"image/color"
 	"time"
+	"zuzweit/api"
 )
 
 var (
@@ -30,7 +32,7 @@ func (s *MenuScene) Update() error {
 
 	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) {
 		gs := NewGameScene(s.BaseScene)
-		s.sm.SwitchTo(gs)
+		s.sm.SwitchWithTransition(gs, stagehand.NewFadeTransition[api.GameState](.05))
 	}
 
 	return nil
