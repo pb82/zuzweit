@@ -3,7 +3,6 @@ package scenes
 import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"image/color"
-	"time"
 )
 
 var (
@@ -17,17 +16,6 @@ var (
 
 type GameScene struct {
 	BaseScene
-}
-
-func (s *GameScene) Update() error {
-	milliseconds := time.Now().UnixMilli()
-	delta := milliseconds - s.milliseconds
-	s.milliseconds = milliseconds
-
-	s.entityManager.Collect()
-	s.entityManager.Update(float64(delta), s.context)
-
-	return nil
 }
 
 func (s *GameScene) Draw(screen *ebiten.Image) {

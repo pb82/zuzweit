@@ -6,9 +6,6 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/joelschutz/stagehand"
-	_ "github.com/joelschutz/stagehand"
-	_ "github.com/lafriks/go-tiled"
-	_ "image/png"
 	"zuzweit/api"
 	"zuzweit/ecs"
 	"zuzweit/scenes"
@@ -17,6 +14,9 @@ import (
 //go:embed assets/tiles.png
 var _tiles []byte
 var tiles *ebiten.Image
+
+//go:embed assets/font.ttf
+var _font []byte
 
 func init() {
 	_, _, _ = ebitenutil.NewImageFromReader(bytes.NewReader(_tiles))

@@ -6,6 +6,7 @@ type ComponentType uint32
 
 const (
 	TranslateComponentType ComponentType = iota
+	MenuComponentType
 )
 
 type Component interface {
