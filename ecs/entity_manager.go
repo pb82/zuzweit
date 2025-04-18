@@ -2,7 +2,6 @@ package ecs
 
 import (
 	"github.com/hajimehoshi/ebiten/v2"
-	"zuzweit/api"
 	"zuzweit/data_structures"
 )
 
@@ -59,14 +58,20 @@ func (e *EntityManager) Collect() {
 	}
 }
 
-func (e *EntityManager) Update(dt float64, context *api.GameContext) {
+func (e *EntityManager) Update(dt float64) {
 	e.entities.ForEach(func(e *Entity) {
 		e.Update(dt)
 	})
 }
 
-func (e *EntityManager) Render(screen *ebiten.Image, context *api.GameContext) {
+func (e *EntityManager) Render(screen *ebiten.Image) {
 	e.entities.ForEach(func(e *Entity) {
 		e.Render(screen)
+	})
+}
+
+func (e *EntityManager) KeyInput(keys []ebiten.Key) {
+	e.entities.ForEach(func(e *Entity) {
+		e.KeyInput(keys)
 	})
 }

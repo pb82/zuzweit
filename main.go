@@ -6,6 +6,8 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/joelschutz/stagehand"
+	mini3d "github.com/pb82/mini3d/api"
+	"image/color"
 	"zuzweit/api"
 	"zuzweit/ecs"
 	"zuzweit/scenes"
@@ -22,15 +24,40 @@ func init() {
 	_, _, _ = ebitenutil.NewImageFromReader(bytes.NewReader(_tiles))
 }
 
+// draw used by the mini3d engine to draw a 3d scene on a canvas
+func draw(x, y int, c color.Color, userData mini3d.UserData) {
+	canvas := userData.(api.Canvas)
+	r, g, b, a := c.RGBA()
+	pos := (y * api.InternalWidth * 4) + x*4
+	canvas[pos] = byte(r >> 8)
+	canvas[pos+1] = byte(g >> 8)
+	canvas[pos+2] = byte(b >> 8)
+	canvas[pos+3] = byte(a >> 8)
+}
+
 func main() {
 	entityManager := ecs.NewEntityManager()
-	context := &api.GameContext{}
+	engineOpts := &mini3d.EngineOptions{
+		TextureAtlas: nil,
+	}
+
+	player := entityManager.AddEntity()
+	ecs.NewTranslateComponent(player)
+	ecs.NewControlsComponent(player)
+
+	context := &api.GameContext{
+		Engine: mini3d.NewEngine(api.InternalWidth, api.InternalHeight, 90, draw, engineOpts),
+		Canvas: make([]byte, api.InternalWidth*api.InternalHeight*4),
+	}
 	state := api.GameState{}
 
-	sceneManager := stagehand.NewSceneManager[api.GameState](&scenes.MenuScene{
-		BaseScene: scenes.NewBaseScene(entityManager, context),
-	}, state)
+	sceneManager := stagehand.NewSceneManager[api.GameState](
+		scenes.NewGameScene(scenes.NewBaseScene(entityManager, context)),
+		state)
 
-	ebiten.SetWindowSize(1024, 768)
-	ebiten.RunGame(sceneManager)
+	ebiten.SetWindowSize(api.ScreenWidth, api.ScreenHeight)
+	err := ebiten.RunGame(sceneManager)
+	if err != nil {
+		panic(err)
+	}
 }

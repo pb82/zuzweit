@@ -46,6 +46,8 @@ func (t *MenuComponent) Update(_ float64) {
 	// empty
 }
 
+func (t *MenuComponent) KeyInput(keys []ebiten.Key) {}
+
 func (t *MenuComponent) Type() ComponentType {
 	return MenuComponentType
 }

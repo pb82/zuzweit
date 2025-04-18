@@ -4,7 +4,6 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/joelschutz/stagehand"
-	"log"
 	"time"
 	"zuzweit/api"
 	"zuzweit/ecs"
@@ -15,6 +14,7 @@ type BaseScene struct {
 	context       *api.GameContext
 	state         api.GameState
 	milliseconds  int64
+	delta         int64
 	keys          []ebiten.Key
 
 	sm *stagehand.SceneManager[api.GameState]
@@ -29,22 +29,18 @@ func (s *BaseScene) Unload() api.GameState {
 	return s.state
 }
 
-func (s *BaseScene) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	return 640, 480
+func (s *BaseScene) Layout(_outsideWidth, _outsideHeight int) (screenWidth, screenHeight int) {
+	return api.InternalWidth, api.InternalHeight
 }
 
 func (s *BaseScene) Update() error {
 	milliseconds := time.Now().UnixMilli()
-	delta := milliseconds - s.milliseconds
+	s.delta = milliseconds - s.milliseconds
 	s.milliseconds = milliseconds
-
-	s.keys = inpututil.AppendPressedKeys(s.keys[:0])
-	if len(s.keys) > 0 {
-		log.Println(s.keys)
-	}
-
+	s.keys = inpututil.AppendJustPressedKeys(s.keys[:0])
 	s.entityManager.Collect()
-	s.entityManager.Update(float64(delta), s.context)
+	s.entityManager.Update(float64(s.delta))
+	s.entityManager.KeyInput(s.keys)
 
 	return nil
 }

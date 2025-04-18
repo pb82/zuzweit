@@ -70,3 +70,9 @@ func (e *Entity) Render(screen *ebiten.Image) {
 		c.Render(screen)
 	})
 }
+
+func (e *Entity) KeyInput(keys []ebiten.Key) {
+	e.components.ForEach(func(c Component) {
+		c.KeyInput(keys)
+	})
+}
