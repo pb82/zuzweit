@@ -8,7 +8,6 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/hajimehoshi/ebiten/v2 v2.8.7
 	github.com/joelschutz/stagehand v1.1.1
-	github.com/lafriks/go-tiled v0.12.0
 	github.com/pb82/mini3d v0.0.0-20250409195052-1009caa742f9
 	github.com/stretchr/testify v1.8.4
 )

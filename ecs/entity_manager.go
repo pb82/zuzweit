@@ -16,7 +16,7 @@ func NewEntityManager() *EntityManager {
 }
 
 func (e *EntityManager) AddEntity() *Entity {
-	entity := NewEntity()
+	entity := NewEntity(e)
 	e.pendingAdd.Push(entity)
 	return entity
 }

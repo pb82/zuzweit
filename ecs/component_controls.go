@@ -3,6 +3,7 @@ package ecs
 import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"log"
+	"zuzweit/api"
 )
 
 type ControlsComponent struct {
@@ -35,6 +36,9 @@ func (t *ControlsComponent) KeyInput(keys []ebiten.Key) {
 	for _, key := range keys {
 		switch key {
 		case ebiten.KeyUp:
+			advance := NewAdvance(t.parent)
+			q := api.GetCommandQueue()
+			q.Push(advance)
 			log.Println("UP")
 		}
 	}

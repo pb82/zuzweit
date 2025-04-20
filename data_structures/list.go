@@ -37,6 +37,15 @@ func (l *List[T]) Has(pred func(t T) bool) bool {
 	return false
 }
 
+func (l *List[T]) Get(pred func(t T) bool) (bool, T) {
+	for _, item := range l.items {
+		if pred(item) {
+			return true, item
+		}
+	}
+	return false, *new(T)
+}
+
 func (l *List[T]) ForEach(cb func(t T)) {
 	for _, item := range l.items {
 		cb(item)

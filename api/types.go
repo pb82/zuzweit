@@ -2,38 +2,31 @@ package api
 
 import (
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/lafriks/go-tiled"
 	mini3d "github.com/pb82/mini3d/api"
 )
 
 type Canvas []byte
 
-type Direction uint8
+type Direction int
 
 const (
-	Forward Direction = iota
-	Backward
-	Left
-	Right
+	Forward  Direction = 0
+	Left               = -90
+	Right              = 90
+	Backward           = 180
 )
+
+func (d Direction) Angle() float64 {
+	return float64(d)
+}
 
 type GameState struct {
 }
 
 type GameContext struct {
-	Map      *tiled.Map
 	Gamepads []ebiten.GamepadID
 	Engine   *mini3d.Engine
 	Canvas   Canvas
-}
-
-func (g *GameContext) LoadMap(fileName string) error {
-	m, err := tiled.LoadFile(fileName)
-	if err != nil {
-		return err
-	}
-	g.Map = m
-	return nil
 }
 
 // Clear clears the canvas (set all pixels to black)

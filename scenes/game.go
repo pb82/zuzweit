@@ -28,7 +28,7 @@ func (s *GameScene) Load(state api.GameState, sm stagehand.SceneController[api.G
 	s.mesh = mini3d.ColoredCube()
 	s.context.Engine.AddMesh(s.mesh)
 	s.mesh.Translate(-0.5, -0.5, 0)
-	s.context.Engine.SetCameraPositionRelative(0, 0, -5, mini3d.ToRadians(0), 0)
+	s.context.Engine.SetCameraPositionAbsolute(0, 0, -5, mini3d.ToRadians(0), 0)
 }
 
 func (s *GameScene) Update() error {
@@ -36,7 +36,7 @@ func (s *GameScene) Update() error {
 	if err != nil {
 		return err
 	}
-	
+
 	c := s.mesh.GetCenter()
 	s.mesh.RotateXAround(1*float64(s.milliseconds)/1000, &c)
 	return nil

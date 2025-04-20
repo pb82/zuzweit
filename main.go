@@ -42,7 +42,10 @@ func main() {
 	}
 
 	player := entityManager.AddEntity()
-	ecs.NewTranslateComponent(player)
+	translate := ecs.NewTranslateComponent(player)
+	translate.X = 0
+	translate.Y = -5
+
 	ecs.NewControlsComponent(player)
 
 	context := &api.GameContext{

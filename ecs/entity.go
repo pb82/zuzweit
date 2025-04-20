@@ -11,12 +11,14 @@ type Entity struct {
 	active         bool
 	components     data_structures.List[Component]
 	pendingRemoval data_structures.Queue[ComponentType]
+	manager        *EntityManager
 }
 
-func NewEntity() *Entity {
+func NewEntity(manager *EntityManager) *Entity {
 	return &Entity{
-		id:     uuid.New(),
-		active: true,
+		id:      uuid.New(),
+		active:  true,
+		manager: manager,
 	}
 }
 
@@ -28,6 +30,16 @@ func (e *Entity) HasComponent(componentType ComponentType) bool {
 	return e.components.Has(func(c Component) bool {
 		return c.Type() == componentType
 	})
+}
+
+func (e *Entity) GetComponent(componentType ComponentType) Component {
+	found, component := e.components.Get(func(c Component) bool {
+		return c.Type() == componentType
+	})
+	if found {
+		return component
+	}
+	return nil
 }
 
 func (e *Entity) addComponent(component Component) Component {

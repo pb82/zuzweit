@@ -23,8 +23,6 @@ github.com/joelschutz/stagehand v1.1.1/go.mod h1:0xFVVeIsfW4PyajxhPc+dWZBlBE3xt6
 github.com/kr/pty v1.1.1/go.mod h1:pFQYn66WHrOpPYNljwOMqo10TkYh1fy3cYio2l3bCsQ=
 github.com/kr/text v0.1.0 h1:45sCR5RtlFHMR4UwH9sdQ5TC8v0qDQCHnXt+kaKSTVE=
 github.com/kr/text v0.1.0/go.mod h1:4Jbv+DJW3UT/LiOwJeYQe1efqtUx/iVham/4vfdArNI=
-github.com/lafriks/go-tiled v0.12.0 h1:uteu/gkllQmv2/2O1xgxhyOH5/9VsOyGd5/M9sBeBjQ=
-github.com/lafriks/go-tiled v0.12.0/go.mod h1:W+Jg+seXMJu+fx7YCr/1PWNwMuvRWiOcywK72TnKc0M=
 github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e h1:fD57ERR4JtEqsWbfPhv4DMiApHyliiK5xCTNVSPiaAs=
 github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e/go.mod h1:zD1mROLANZcx1PVRCS0qkT7pwLkGfwJo4zjcN/Tysno=
 github.com/pb82/mini3d v0.0.0-20250409195052-1009caa742f9 h1:HE59emaTNZ96UkrEnALwLA22ByjhGTAQiSmh9PxpyVg=
