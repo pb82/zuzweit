@@ -9,15 +9,30 @@ type EntityManager struct {
 	entities      data_structures.List[*Entity]
 	pendingAdd    data_structures.Queue[*Entity]
 	pendingRemove data_structures.Queue[*Entity]
+	namedEntities map[string]*Entity
 }
 
 func NewEntityManager() *EntityManager {
-	return &EntityManager{}
+	return &EntityManager{
+		namedEntities: make(map[string]*Entity),
+	}
 }
 
 func (e *EntityManager) AddEntity() *Entity {
 	entity := NewEntity(e)
 	e.pendingAdd.Push(entity)
+	return entity
+}
+
+func (e *EntityManager) AddNamedEntity(name string) *Entity {
+	entity := NewEntity(e)
+	entity.name = name
+	e.pendingAdd.Push(entity)
+	return entity
+}
+
+func (e *EntityManager) GetNamedEntity(name string) *Entity {
+	entity := e.namedEntities[name]
 	return entity
 }
 
@@ -45,6 +60,11 @@ func (e *EntityManager) Collect() {
 
 		entity, _ := e.pendingRemove.Pop()
 		e.removeEntity(entity)
+
+		// if the entity is named, deregister it
+		if entity.name != "" {
+			delete(e.namedEntities, entity.name)
+		}
 	}
 
 	// insert pending entities
@@ -55,6 +75,11 @@ func (e *EntityManager) Collect() {
 
 		entity, _ := e.pendingAdd.Pop()
 		e.entities.Add(entity)
+
+		// if the entity is named, register it
+		if entity.name != "" && e.namedEntities[entity.name] == nil {
+			e.namedEntities[entity.name] = entity
+		}
 	}
 }
 

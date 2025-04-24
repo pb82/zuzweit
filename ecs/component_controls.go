@@ -2,7 +2,6 @@ package ecs
 
 import (
 	"github.com/hajimehoshi/ebiten/v2"
-	"log"
 	"zuzweit/api"
 )
 
@@ -25,7 +24,7 @@ func (t *ControlsComponent) Update(_ float64) {
 }
 
 func (t *ControlsComponent) Type() ComponentType {
-	return TranslateComponentType
+	return ControlsComponentType
 }
 
 func (t *ControlsComponent) Parent() *Entity {
@@ -36,10 +35,15 @@ func (t *ControlsComponent) KeyInput(keys []ebiten.Key) {
 	for _, key := range keys {
 		switch key {
 		case ebiten.KeyUp:
-			advance := NewAdvance(t.parent)
-			q := api.GetCommandQueue()
-			q.Push(advance)
-			log.Println("UP")
+			if api.GetCommandQueue().Empty() {
+				api.GetCommandQueue().Push(NewAdvance(t.parent, 1))
+			}
+			break
+		case ebiten.KeyDown:
+			if api.GetCommandQueue().Empty() {
+				api.GetCommandQueue().Push(NewAdvance(t.parent, -1))
+			}
+			break
 		}
 	}
 }

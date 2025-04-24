@@ -33,6 +33,12 @@ func (s *BaseScene) Layout(_outsideWidth, _outsideHeight int) (screenWidth, scre
 	return api.InternalWidth, api.InternalHeight
 }
 
+func (s *BaseScene) updateCamera() {
+	player := s.entityManager.GetNamedEntity("player")
+	translate := player.GetComponent(ecs.TranslateComponentType).(*ecs.TranslateComponent)
+	s.context.Engine.SetCameraPositionAbsolute(translate.X, 0.5, translate.Y, translate.Direction.Angle(), 0)
+}
+
 func (s *BaseScene) Update() error {
 	milliseconds := time.Now().UnixMilli()
 	s.delta = milliseconds - s.milliseconds
@@ -41,6 +47,21 @@ func (s *BaseScene) Update() error {
 	s.entityManager.Collect()
 	s.entityManager.Update(float64(s.delta))
 	s.entityManager.KeyInput(s.keys)
+
+	if !api.GetCommandQueue().Empty() {
+		command, err := api.GetCommandQueue().Peek()
+		if err != nil {
+			return err
+		}
+
+		if command.Complete() {
+			_, _ = api.GetCommandQueue().Pop()
+		} else {
+			command.Run(float64(s.delta))
+		}
+	}
+
+	s.updateCamera()
 
 	return nil
 }

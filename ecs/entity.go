@@ -7,7 +7,11 @@ import (
 )
 
 type Entity struct {
-	id             uuid.UUID
+	id uuid.UUID
+
+	// optional
+	// only certain, permanently accessible entities should be named
+	name           string
 	active         bool
 	components     data_structures.List[Component]
 	pendingRemoval data_structures.Queue[ComponentType]

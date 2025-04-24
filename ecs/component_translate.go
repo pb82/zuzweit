@@ -2,6 +2,7 @@ package ecs
 
 import (
 	"github.com/hajimehoshi/ebiten/v2"
+	api2 "github.com/pb82/mini3d/api"
 	"zuzweit/api"
 )
 
@@ -11,12 +12,12 @@ type TranslateComponent struct {
 	Direction api.Direction
 }
 
-func NewTranslateComponent(parent *Entity) *TranslateComponent {
+func NewTranslateComponent(parent *Entity, x, y float64, d api.Direction) *TranslateComponent {
 	return parent.addComponent(&TranslateComponent{
 		parent:    parent,
-		X:         0,
-		Y:         0,
-		Direction: api.Forward,
+		X:         x,
+		Y:         y,
+		Direction: d,
 	}).(*TranslateComponent)
 }
 
@@ -29,7 +30,7 @@ func (t *TranslateComponent) Update(_ float64) {}
 func (t *TranslateComponent) KeyInput(keys []ebiten.Key) {}
 
 func (t *TranslateComponent) Type() ComponentType {
-	return ControlsComponentType
+	return TranslateComponentType
 }
 
 func (t *TranslateComponent) ToCameraPosition() (x float64, y float64, z float64, yaw float64) {
@@ -38,6 +39,15 @@ func (t *TranslateComponent) ToCameraPosition() (x float64, y float64, z float64
 	y = 0.5
 	z = t.Y
 	return
+}
+
+func (t *TranslateComponent) Increment(x, y float64) api2.Vector3d {
+	return api2.Vector3d{
+		X: t.X + x,
+		Y: t.Y + y,
+		Z: 0,
+		W: 0,
+	}
 }
 
 func (t *TranslateComponent) Parent() *Entity {

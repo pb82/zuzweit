@@ -6,7 +6,8 @@ import (
 )
 
 func Test_Entity(t *testing.T) {
-	e := NewEntity()
+	em := NewEntityManager()
+	e := em.AddEntity()
 	c := NewTranslateComponent(e)
 
 	assert.True(t, e.HasComponent(TranslateComponentType))
@@ -14,7 +15,8 @@ func Test_Entity(t *testing.T) {
 }
 
 func Test_EntityRemoveComponent(t *testing.T) {
-	e := NewEntity()
+	em := NewEntityManager()
+	e := em.AddEntity()
 	_ = NewTranslateComponent(e)
 
 	assert.Equal(t, e.components.Size(), 1)

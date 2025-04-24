@@ -10,10 +10,10 @@ type Canvas []byte
 type Direction int
 
 const (
-	Forward  Direction = 0
-	Left               = -90
-	Right              = 90
-	Backward           = 180
+	North Direction = 0
+	West            = -90
+	East            = 90
+	South           = 180
 )
 
 func (d Direction) Angle() float64 {

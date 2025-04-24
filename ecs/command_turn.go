@@ -6,14 +6,13 @@ import (
 	api2 "zuzweit/api"
 )
 
-type Advance struct {
+type Turn struct {
 	player    *Entity
-	direction api2.Direction
 	increment float64
 	distance  float64
 }
 
-func (a *Advance) Run(dt float64) {
+func (a *Turn) Run(dt float64) {
 	translate := a.player.GetComponent(TranslateComponentType).(*TranslateComponent)
 	step := a.increment * dt / 1000
 
@@ -31,7 +30,7 @@ func (a *Advance) Run(dt float64) {
 	a.distance += math.Abs(step)
 }
 
-func (a *Advance) Complete() bool {
+func (a *Turn) Complete() bool {
 	if a.distance >= 1 {
 		translate := a.player.GetComponent(TranslateComponentType).(*TranslateComponent)
 		translate.X = math.Floor(translate.X) + .5
@@ -43,8 +42,8 @@ func (a *Advance) Complete() bool {
 	return false
 }
 
-func NewAdvance(player *Entity, increment float64) *Advance {
-	return &Advance{
+func NewTurn(player *Entity, increment float64) *Turn {
+	return &Turn{
 		increment: increment,
 		player:    player,
 		distance:  0,

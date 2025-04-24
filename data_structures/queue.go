@@ -14,6 +14,15 @@ func (q *Queue[T]) Empty() bool {
 	return len(q.data) == 0
 }
 
+func (q *Queue[T]) Peek() (T, error) {
+	if len(q.data) == 0 {
+		var t T
+		return t, errors.New("cannot peek on empty queue")
+	}
+
+	return q.data[0], nil
+}
+
 func (q *Queue[T]) Pop() (T, error) {
 	if len(q.data) == 0 {
 		var t T

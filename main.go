@@ -41,11 +41,8 @@ func main() {
 		TextureAtlas: nil,
 	}
 
-	player := entityManager.AddEntity()
-	translate := ecs.NewTranslateComponent(player)
-	translate.X = 0
-	translate.Y = -5
-
+	player := entityManager.AddNamedEntity("player")
+	ecs.NewTranslateComponent(player, 0.5, -5.5, api.North)
 	ecs.NewControlsComponent(player)
 
 	context := &api.GameContext{
