@@ -1,9 +1,9 @@
 package ecs
 
 import (
-	mini3d "github.com/pb82/mini3d/api"
-	"log"
 	"math"
+
+	mini3d "github.com/pb82/mini3d/api"
 )
 
 type Turn struct {
@@ -26,15 +26,11 @@ func (a *Turn) Complete() bool {
 
 		degrees := yaw * 180 / math.Pi
 
-		log.Println(degrees)
-
-		if degrees < 0 {
+		if a.increment < 0 {
 			degrees = math.Ceil(degrees)
 		} else {
 			degrees = math.Floor(degrees)
 		}
-
-		log.Println(degrees)
 
 		yaw = mini3d.ToRadians(degrees)
 
