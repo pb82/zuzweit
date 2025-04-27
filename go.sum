@@ -29,6 +29,10 @@ github.com/pb82/mini3d v0.0.0-20250409195052-1009caa742f9 h1:HE59emaTNZ96UkrEnAL
 github.com/pb82/mini3d v0.0.0-20250409195052-1009caa742f9/go.mod h1:W5C8bs2+I56NAzFWPrz0oq8+ViGRBYToeEbG7aPj/2o=
 github.com/pb82/mini3d v0.0.0-20250424081024-bb2d8045dd10 h1:IWJqStzbWy4oXaTdgTc0xuHnUMCHqKTNcym1AE90vfI=
 github.com/pb82/mini3d v0.0.0-20250424081024-bb2d8045dd10/go.mod h1:qhsbY6mnSPDE8uuVbCHMzNpwCSqk8nsGHE+tKjewEBc=
+github.com/pb82/mini3d v0.0.0-20250427171453-6dc7a961560d h1:JVxgep/m1njUR6V6BTCgN26Xsp/YeWQr4nYZdWRVmns=
+github.com/pb82/mini3d v0.0.0-20250427171453-6dc7a961560d/go.mod h1:qhsbY6mnSPDE8uuVbCHMzNpwCSqk8nsGHE+tKjewEBc=
+github.com/pb82/mini3d v0.0.0-20250427175323-2a955f062b94 h1:XANxnA/8Sf6U5k49BT7CVpcozuO8RINfR0WMejf9aKM=
+github.com/pb82/mini3d v0.0.0-20250427175323-2a955f062b94/go.mod h1:qhsbY6mnSPDE8uuVbCHMzNpwCSqk8nsGHE+tKjewEBc=
 github.com/pierrec/lz4/v4 v4.1.21 h1:yOVMLb6qSIDP67pl/5F7RepeKYu/VmTyEXvuMI5d9mQ=
 github.com/pierrec/lz4/v4 v4.1.21/go.mod h1:gZWDp/Ze/IJXGXf23ltt2EXimqmTUXEy0GFuRQyBid4=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=

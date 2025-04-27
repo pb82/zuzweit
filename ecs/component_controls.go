@@ -2,16 +2,19 @@ package ecs
 
 import (
 	"github.com/hajimehoshi/ebiten/v2"
+	mini3d "github.com/pb82/mini3d/api"
 	"zuzweit/api"
 )
 
 type ControlsComponent struct {
 	parent *Entity
+	engine *mini3d.Engine
 }
 
-func NewControlsComponent(parent *Entity) *ControlsComponent {
+func NewControlsComponent(parent *Entity, engine *mini3d.Engine) *ControlsComponent {
 	return parent.addComponent(&ControlsComponent{
 		parent: parent,
+		engine: engine,
 	}).(*ControlsComponent)
 }
 
@@ -36,22 +39,22 @@ func (t *ControlsComponent) KeyInput(keys []ebiten.Key) {
 		switch key {
 		case ebiten.KeyUp:
 			if api.GetCommandQueue().Empty() {
-				api.GetCommandQueue().Push(NewAdvance(t.parent, 1))
+				api.GetCommandQueue().Push(NewAdvance(t.parent, 1, t.engine))
 			}
 			break
 		case ebiten.KeyDown:
 			if api.GetCommandQueue().Empty() {
-				api.GetCommandQueue().Push(NewAdvance(t.parent, -1))
+				api.GetCommandQueue().Push(NewAdvance(t.parent, -1, t.engine))
 			}
 			break
 		case ebiten.KeyLeft:
 			if api.GetCommandQueue().Empty() {
-				api.GetCommandQueue().Push(NewTurn(t.parent, -1))
+				api.GetCommandQueue().Push(NewTurn(t.parent, -1, t.engine))
 			}
 			break
 		case ebiten.KeyRight:
 			if api.GetCommandQueue().Empty() {
-				api.GetCommandQueue().Push(NewTurn(t.parent, 1))
+				api.GetCommandQueue().Push(NewTurn(t.parent, 1, t.engine))
 			}
 			break
 		}

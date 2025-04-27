@@ -1,52 +1,39 @@
 package ecs
 
 import (
-	"log"
+	mini3d "github.com/pb82/mini3d/api"
 	"math"
-	api2 "zuzweit/api"
+	"zuzweit/util"
 )
 
 type Advance struct {
 	player    *Entity
-	direction api2.Direction
 	increment float64
 	distance  float64
+	engine    *mini3d.Engine
 }
 
 func (a *Advance) Run(dt float64) {
-	translate := a.player.GetComponent(TranslateComponentType).(*TranslateComponent)
 	step := a.increment * dt / 1000
-
-	switch a.direction {
-	case api2.North:
-		translate.Y += step
-	case api2.South:
-		translate.Y -= step
-	case api2.East:
-		translate.X -= step
-	case api2.West:
-		translate.X += step
-	}
-
 	a.distance += math.Abs(step)
+	a.engine.MoveCameraForward(step)
 }
 
 func (a *Advance) Complete() bool {
 	if a.distance >= 1 {
-		translate := a.player.GetComponent(TranslateComponentType).(*TranslateComponent)
-		translate.X = math.Floor(translate.X) + .5
-		translate.Y = math.Floor(translate.Y) + .5
-		log.Println(translate)
+		x, y, z, yaw, pitch := a.engine.GetCameraPosition()
+		x = util.RoundFloat(x, 1)
+		z = util.RoundFloat(z, 1)
+		a.engine.SetCameraPositionAbsolute(x, y, z, yaw, pitch)
 		return true
 	}
-
 	return false
 }
 
-func NewAdvance(player *Entity, increment float64) *Advance {
+func NewAdvance(player *Entity, increment float64, engine *mini3d.Engine) *Advance {
 	return &Advance{
 		increment: increment,
 		player:    player,
-		distance:  0,
+		engine:    engine,
 	}
 }

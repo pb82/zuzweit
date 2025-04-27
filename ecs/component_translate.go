@@ -9,16 +9,16 @@ type TranslateComponent struct {
 	parent  *Entity
 	X, Y    float64
 	Advance float64
-	Angle   float64
+	Turn    float64
 }
 
-func NewTranslateComponent(parent *Entity, x, y, angle float64) *TranslateComponent {
+func NewTranslateComponent(parent *Entity, x, y float64) *TranslateComponent {
 	return parent.addComponent(&TranslateComponent{
 		parent:  parent,
 		X:       x,
 		Y:       y,
 		Advance: 0,
-		Angle:   angle,
+		Turn:    0,
 	}).(*TranslateComponent)
 }
 
@@ -32,14 +32,6 @@ func (t *TranslateComponent) KeyInput(keys []ebiten.Key) {}
 
 func (t *TranslateComponent) Type() ComponentType {
 	return TranslateComponentType
-}
-
-func (t *TranslateComponent) ToCameraPosition() (x float64, y float64, z float64, yaw float64) {
-	yaw = t.Angle
-	x = t.X
-	y = 0.5
-	z = t.Y
-	return
 }
 
 func (t *TranslateComponent) Increment(x, y float64) api2.Vector3d {

@@ -41,13 +41,15 @@ func main() {
 		TextureAtlas: nil,
 	}
 
+	engine := mini3d.NewEngine(api.InternalWidth, api.InternalHeight, 90, draw, engineOpts)
+
 	player := entityManager.AddNamedEntity("player")
-	ecs.NewTranslateComponent(player, 0.5, -5.5, 0)
-	ecs.NewControlsComponent(player)
+	ecs.NewTranslateComponent(player, 0.5, -5.5)
+	ecs.NewControlsComponent(player, engine)
 	entityManager.Collect()
 
 	context := &api.GameContext{
-		Engine: mini3d.NewEngine(api.InternalWidth, api.InternalHeight, 90, draw, engineOpts),
+		Engine: engine,
 		Canvas: make([]byte, api.InternalWidth*api.InternalHeight*4),
 	}
 	state := api.GameState{}
