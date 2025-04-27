@@ -6,6 +6,7 @@ import (
 	mini3d "github.com/pb82/mini3d/api"
 	"image/color"
 	"zuzweit/api"
+	"zuzweit/ecs"
 )
 
 var (
@@ -19,15 +20,27 @@ var (
 
 type GameScene struct {
 	BaseScene
-
-	mesh *mini3d.Mesh
 }
 
 func (s *GameScene) Load(state api.GameState, sm stagehand.SceneController[api.GameState]) {
 	s.BaseScene.Load(state, sm)
-	s.mesh = mini3d.ColoredCube()
-	s.context.Engine.AddMesh(s.mesh)
-	s.mesh.Translate(0, 0, 0)
+	gameMap := api.NewDemoMap()
+
+	for y := 0; y < gameMap.H; y++ {
+		for x := 0; x < gameMap.W; x++ {
+			if gameMap.Get(float64(x), float64(y)) == 1 {
+				cube := mini3d.ColoredCube()
+				cube.Translate(float64(x), 0, float64(y))
+				s.context.Engine.AddMesh(cube)
+			}
+		}
+	}
+
+	playerX, playerY := gameMap.GetPlayerStart()
+	s.context.Engine.SetCameraPositionAbsolute(playerX, 0.5, playerY, 0, 0)
+	t := s.entityManager.GetNamedEntity("player").GetComponent(ecs.TranslateComponentType).(*ecs.TranslateComponent)
+	t.X = playerX
+	t.Y = playerY
 }
 
 func (s *GameScene) Update() error {

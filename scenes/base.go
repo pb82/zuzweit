@@ -36,7 +36,7 @@ func (s *BaseScene) Layout(_outsideWidth, _outsideHeight int) (screenWidth, scre
 func (s *BaseScene) updateCamera() {
 	player := s.entityManager.GetNamedEntity("player")
 	translate := player.GetComponent(ecs.TranslateComponentType).(*ecs.TranslateComponent)
-	s.context.Engine.SetCameraPositionAbsolute(translate.X, 0.5, translate.Y, translate.Direction.Angle(), 0)
+	s.context.Engine.SetCameraPositionAbsolute(translate.X, 0.5, translate.Y, translate.Angle, 0)
 }
 
 func (s *BaseScene) Update() error {

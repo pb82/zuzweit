@@ -3,21 +3,22 @@ package ecs
 import (
 	"github.com/hajimehoshi/ebiten/v2"
 	api2 "github.com/pb82/mini3d/api"
-	"zuzweit/api"
 )
 
 type TranslateComponent struct {
-	parent    *Entity
-	X, Y      float64
-	Direction api.Direction
+	parent  *Entity
+	X, Y    float64
+	Advance float64
+	Angle   float64
 }
 
-func NewTranslateComponent(parent *Entity, x, y float64, d api.Direction) *TranslateComponent {
+func NewTranslateComponent(parent *Entity, x, y, angle float64) *TranslateComponent {
 	return parent.addComponent(&TranslateComponent{
-		parent:    parent,
-		X:         x,
-		Y:         y,
-		Direction: d,
+		parent:  parent,
+		X:       x,
+		Y:       y,
+		Advance: 0,
+		Angle:   angle,
 	}).(*TranslateComponent)
 }
 
@@ -34,7 +35,7 @@ func (t *TranslateComponent) Type() ComponentType {
 }
 
 func (t *TranslateComponent) ToCameraPosition() (x float64, y float64, z float64, yaw float64) {
-	yaw = t.Direction.Angle()
+	yaw = t.Angle
 	x = t.X
 	y = 0.5
 	z = t.Y

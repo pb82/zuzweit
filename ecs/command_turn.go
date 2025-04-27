@@ -1,29 +1,46 @@
 package ecs
 
 import (
-	"math"
+	"github.com/pb82/mini3d/api"
 )
 
 type Turn struct {
 	player    *Entity
 	increment float64
-	distance  float64
+	target    float64
 }
 
 func (a *Turn) Run(dt float64) {
-	_ = a.player.GetComponent(TranslateComponentType).(*TranslateComponent)
+	t := a.player.GetComponent(TranslateComponentType).(*TranslateComponent)
 	step := a.increment * dt / 1000
-	a.distance += math.Abs(step)
+	t.Angle += step
 }
 
 func (a *Turn) Complete() bool {
+	t := a.player.GetComponent(TranslateComponentType).(*TranslateComponent)
+	if a.increment > 0 {
+		if t.Angle >= a.target {
+			t.Angle = a.target
+			return true
+		}
+	} else {
+		if t.Angle <= a.target {
+			t.Angle = a.target
+			return true
+		}
+	}
+
 	return false
 }
 
 func NewTurn(player *Entity, increment float64) *Turn {
-	return &Turn{
+	t := player.GetComponent(TranslateComponentType).(*TranslateComponent)
+
+	turn := &Turn{
 		increment: increment,
 		player:    player,
-		distance:  0,
+		target:    t.Angle + (increment * api.ToRadians(90)),
 	}
+
+	return turn
 }
