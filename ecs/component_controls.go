@@ -49,11 +49,11 @@ func (t *ControlsComponent) KeyInput(keys []ebiten.Key) {
 			break
 		case ebiten.KeyLeft:
 			if api.GetCommandQueue().Empty() {
-				api.GetCommandQueue().Push(NewTurnLeft(t.parent, t.engine))
 			}
 			break
 		case ebiten.KeyRight:
 			if api.GetCommandQueue().Empty() {
+				api.GetCommandQueue().Push(NewTurnLeft(t.parent, t.engine))
 			}
 			break
 		}

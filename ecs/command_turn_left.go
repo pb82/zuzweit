@@ -10,26 +10,25 @@ type TurnLeft struct {
 	engine    *mini3d.Engine
 	target    float64
 	increment float64
-	distance  float64
 }
 
 func (a *TurnLeft) Run(dt float64) {
 	step := a.increment * (dt / 1000)
 	a.engine.SetCameraPositionRelative(0, 0, 0, step, 0)
-	a.distance += step
 }
 
 func (a *TurnLeft) Complete() bool {
 	var done bool
+	x, y, z, yaw, pitch := a.engine.GetCameraPosition()
+
 	if a.increment < 0 {
-		done = a.distance <= a.target
+		done = yaw <= a.target
 	} else {
-		done = a.distance >= a.target
+		done = yaw >= a.target
 	}
 
 	if done {
 		// correct for over/undershooting
-		x, y, z, _, pitch := a.engine.GetCameraPosition()
 		a.engine.SetCameraPositionAbsolute(x, y, z, a.target, pitch)
 	}
 
@@ -49,10 +48,10 @@ func NewTurnLeft(player *Entity, engine *mini3d.Engine) *TurnLeft {
 
 	if yaw < target {
 		increment = 1
-		log.Println("increment: 	+")
+		log.Println("increment: 	 +")
 		log.Println("=========================")
 	} else {
-		log.Println("increment: 	-")
+		log.Println("increment: 	 -")
 		log.Println("=========================")
 		increment = -1
 	}
