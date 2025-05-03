@@ -14,6 +14,7 @@ type GameContext struct {
 	Gamepads []ebiten.GamepadID
 	Engine   *mini3d.Engine
 	Canvas   Canvas
+	Map      *Map
 }
 
 // Clear clears the canvas (set all pixels to black)

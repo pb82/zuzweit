@@ -2,6 +2,7 @@ package ecs
 
 import (
 	mini3d "github.com/pb82/mini3d/api"
+	"log"
 )
 
 type Turn struct {
@@ -32,6 +33,8 @@ func (a *Turn) Complete() bool {
 	if done {
 		// correct for over/undershooting
 		a.engine.SetCameraPositionAbsolute(x, y, z, a.target, pitch)
+		translate := a.player.GetComponent(TranslateComponentType).(*TranslateComponent)
+		log.Println(translate.Compass.GetDirection().String())
 	}
 
 	return done

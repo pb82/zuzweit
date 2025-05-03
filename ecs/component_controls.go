@@ -7,14 +7,16 @@ import (
 )
 
 type ControlsComponent struct {
-	parent *Entity
-	engine *mini3d.Engine
+	parent  *Entity
+	engine  *mini3d.Engine
+	gameMap *api.Map
 }
 
-func NewControlsComponent(parent *Entity, engine *mini3d.Engine) *ControlsComponent {
+func NewControlsComponent(parent *Entity, engine *mini3d.Engine, gameMap *api.Map) *ControlsComponent {
 	return parent.addComponent(&ControlsComponent{
-		parent: parent,
-		engine: engine,
+		parent:  parent,
+		engine:  engine,
+		gameMap: gameMap,
 	}).(*ControlsComponent)
 }
 

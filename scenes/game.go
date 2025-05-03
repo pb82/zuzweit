@@ -24,11 +24,10 @@ type GameScene struct {
 
 func (s *GameScene) Load(state api.GameState, sm stagehand.SceneController[api.GameState]) {
 	s.BaseScene.Load(state, sm)
-	gameMap := api.NewDemoMap()
-
-	for y := 0; y < gameMap.H; y++ {
-		for x := 0; x < gameMap.W; x++ {
-			if gameMap.Get(float64(x), float64(y)) == 1 {
+	
+	for y := 0; y < s.context.Map.H; y++ {
+		for x := 0; x < s.context.Map.W; x++ {
+			if s.context.Map.Get(float64(x), float64(y)) == 1 {
 				cube := mini3d.ColoredCube()
 				cube.Translate(float64(x), 0, float64(y))
 				s.context.Engine.AddMesh(cube)
@@ -36,7 +35,7 @@ func (s *GameScene) Load(state api.GameState, sm stagehand.SceneController[api.G
 		}
 	}
 
-	playerX, playerY := gameMap.GetPlayerStart()
+	playerX, playerY := s.context.Map.GetPlayerStart()
 	s.context.Engine.SetCameraPositionAbsolute(playerX, 0.5, playerY, 0, 0)
 	t := s.entityManager.GetNamedEntity("player").GetComponent(ecs.TranslateComponentType).(*ecs.TranslateComponent)
 	t.X = playerX
@@ -48,9 +47,6 @@ func (s *GameScene) Update() error {
 	if err != nil {
 		return err
 	}
-
-	// c := s.mesh.GetCenter()
-	// s.mesh.RotateXAround(1*float64(s.milliseconds)/1000, &c)
 	return nil
 }
 

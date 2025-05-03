@@ -42,15 +42,17 @@ func main() {
 	}
 
 	engine := mini3d.NewEngine(api.InternalWidth, api.InternalHeight, 90, draw, engineOpts)
+	gameMap := api.NewDemoMap()
 
 	player := entityManager.AddNamedEntity("player")
 	ecs.NewTranslateComponent(player, 0.5, -5.5)
-	ecs.NewControlsComponent(player, engine)
+	ecs.NewControlsComponent(player, engine, gameMap)
 	entityManager.Collect()
 
 	context := &api.GameContext{
 		Engine: engine,
 		Canvas: make([]byte, api.InternalWidth*api.InternalHeight*4),
+		Map:    gameMap,
 	}
 	state := api.GameState{}
 

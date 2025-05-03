@@ -23,7 +23,6 @@ type BaseScene struct {
 func (s *BaseScene) Load(state api.GameState, sm stagehand.SceneController[api.GameState]) {
 	s.sm = sm.(*stagehand.SceneManager[api.GameState])
 	s.state = state
-
 }
 
 func (s *BaseScene) Unload() api.GameState {
