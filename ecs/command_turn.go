@@ -2,22 +2,21 @@ package ecs
 
 import (
 	mini3d "github.com/pb82/mini3d/api"
-	"log"
 )
 
-type TurnLeft struct {
+type Turn struct {
 	player    *Entity
 	engine    *mini3d.Engine
 	target    float64
 	increment float64
 }
 
-func (a *TurnLeft) Run(dt float64) {
+func (a *Turn) Run(dt float64) {
 	step := a.increment * (dt / 1000)
 	a.engine.SetCameraPositionRelative(0, 0, 0, step, 0)
 }
 
-func (a *TurnLeft) Complete() bool {
+func (a *Turn) Complete() bool {
 	var done bool
 	x, y, z, yaw, pitch := a.engine.GetCameraPosition()
 
@@ -35,28 +34,26 @@ func (a *TurnLeft) Complete() bool {
 	return done
 }
 
-func NewTurnLeft(player *Entity, engine *mini3d.Engine) *TurnLeft {
+func NewTurn(player *Entity, engine *mini3d.Engine, left bool) *Turn {
 	translate := player.GetComponent(TranslateComponentType).(*TranslateComponent)
-
-	log.Println("current: 	", translate.Compass.GetRadians())
-	target := translate.Compass.TurnLeft()
-	log.Println("target: 	", target)
-
+	var target float64
 	var increment float64
+
+	if left {
+		target = translate.Compass.TurnLeft()
+	} else {
+		target = translate.Compass.TurnRight()
+	}
 
 	_, _, _, yaw, _ := engine.GetCameraPosition()
 
 	if yaw < target {
 		increment = 1
-		log.Println("increment: 	 +")
-		log.Println("=========================")
 	} else {
-		log.Println("increment: 	 -")
-		log.Println("=========================")
 		increment = -1
 	}
 
-	turn := &TurnLeft{
+	turn := &Turn{
 		player:    player,
 		engine:    engine,
 		target:    target,
