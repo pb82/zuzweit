@@ -5,15 +5,18 @@ import (
 )
 
 type Turn struct {
-	player    *Entity
-	engine    *mini3d.Engine
-	target    float64
-	increment float64
+	player       *Entity
+	engine       *mini3d.Engine
+	target       float64
+	increment    float64
+	speed        float64
+	acceleration float64
 }
 
 func (a *Turn) Run(dt float64) {
-	step := a.increment * (dt / 1000)
+	step := a.increment * (dt * a.speed)
 	a.engine.SetCameraPositionRelative(0, 0, 0, step, 0)
+	a.speed *= a.acceleration
 }
 
 func (a *Turn) Complete() bool {
@@ -54,10 +57,12 @@ func NewTurn(player *Entity, engine *mini3d.Engine, left bool) *Turn {
 	}
 
 	turn := &Turn{
-		player:    player,
-		engine:    engine,
-		target:    target,
-		increment: increment,
+		player:       player,
+		engine:       engine,
+		target:       target,
+		increment:    increment,
+		speed:        0.01,
+		acceleration: 0.9,
 	}
 
 	return turn
