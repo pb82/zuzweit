@@ -7,19 +7,6 @@ import (
 
 type Canvas []byte
 
-type Direction int
-
-const (
-	North Direction = 0
-	West            = -90
-	East            = 90
-	South           = 180
-)
-
-func (d Direction) Angle() float64 {
-	return float64(d)
-}
-
 type GameState struct {
 }
 

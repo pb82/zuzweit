@@ -14,7 +14,7 @@ type Advance struct {
 }
 
 func (a *Advance) Run(dt float64) {
-	step := a.increment * dt / 1000
+	step := a.increment * dt / 500
 	a.distance += math.Abs(step)
 	a.engine.MoveCameraForward(step)
 }

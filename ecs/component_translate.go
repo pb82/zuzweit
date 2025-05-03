@@ -3,13 +3,13 @@ package ecs
 import (
 	"github.com/hajimehoshi/ebiten/v2"
 	api2 "github.com/pb82/mini3d/api"
+	"zuzweit/api"
 )
 
 type TranslateComponent struct {
 	parent  *Entity
 	X, Y    float64
-	Advance float64
-	Turn    float64
+	Compass *api.Compass
 }
 
 func NewTranslateComponent(parent *Entity, x, y float64) *TranslateComponent {
@@ -17,8 +17,7 @@ func NewTranslateComponent(parent *Entity, x, y float64) *TranslateComponent {
 		parent:  parent,
 		X:       x,
 		Y:       y,
-		Advance: 0,
-		Turn:    0,
+		Compass: api.NewCompass(),
 	}).(*TranslateComponent)
 }
 

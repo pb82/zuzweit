@@ -23,6 +23,7 @@ type BaseScene struct {
 func (s *BaseScene) Load(state api.GameState, sm stagehand.SceneController[api.GameState]) {
 	s.sm = sm.(*stagehand.SceneManager[api.GameState])
 	s.state = state
+
 }
 
 func (s *BaseScene) Unload() api.GameState {
@@ -35,10 +36,7 @@ func (s *BaseScene) Layout(_outsideWidth, _outsideHeight int) (screenWidth, scre
 
 func (s *BaseScene) updateCamera() {
 	player := s.entityManager.GetNamedEntity("player")
-	translate := player.GetComponent(ecs.TranslateComponentType).(*ecs.TranslateComponent)
-
-	s.context.Engine.MoveCameraForward(translate.Advance)
-	s.context.Engine.SetCameraPositionRelative(0, 0, 0, translate.Turn, 0)
+	_ = player.GetComponent(ecs.TranslateComponentType).(*ecs.TranslateComponent)
 }
 
 func (s *BaseScene) Update() error {
