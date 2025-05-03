@@ -7,16 +7,19 @@ import (
 )
 
 type Advance struct {
-	player    *Entity
-	increment float64
-	distance  float64
-	engine    *mini3d.Engine
+	player       *Entity
+	increment    float64
+	distance     float64
+	engine       *mini3d.Engine
+	speed        float64
+	acceleration float64
 }
 
 func (a *Advance) Run(dt float64) {
-	step := a.increment * dt / 500
+	step := a.increment * (dt * a.speed)
 	a.distance += math.Abs(step)
 	a.engine.MoveCameraForward(step)
+	a.speed *= a.acceleration
 }
 
 func (a *Advance) Complete() bool {
@@ -32,8 +35,10 @@ func (a *Advance) Complete() bool {
 
 func NewAdvance(player *Entity, increment float64, engine *mini3d.Engine) *Advance {
 	return &Advance{
-		increment: increment,
-		player:    player,
-		engine:    engine,
+		increment:    increment,
+		player:       player,
+		engine:       engine,
+		speed:        0.004,
+		acceleration: 0.95,
 	}
 }
