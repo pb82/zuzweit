@@ -28,6 +28,11 @@ func (a *Advance) Complete() bool {
 		x = util.RoundFloat(x, 1)
 		z = util.RoundFloat(z, 1)
 		a.engine.SetCameraPositionAbsolute(x, y, z, yaw, pitch)
+
+		// update the player position only when the move is complete
+		translate := a.player.GetComponent(TranslateComponentType).(*TranslateComponent)
+		translate.X = x
+		translate.Y = z
 		return true
 	}
 	return false

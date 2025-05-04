@@ -3,6 +3,8 @@ package ecs
 import (
 	"github.com/hajimehoshi/ebiten/v2"
 	mini3d "github.com/pb82/mini3d/api"
+	"log"
+	"math"
 	"zuzweit/api"
 )
 
@@ -37,10 +39,22 @@ func (t *ControlsComponent) Parent() *Entity {
 }
 
 func (t *ControlsComponent) KeyInput(keys []ebiten.Key) {
+	translate := t.parent.GetComponent(TranslateComponentType).(*TranslateComponent)
+
 	for _, key := range keys {
 		switch key {
 		case ebiten.KeyUp:
 			if api.GetCommandQueue().Empty() {
+				x, y := translate.NextPosition(false)
+				ahead := t.gameMap.Get(x, y)
+				log.Println("position:			", math.Floor(translate.X), math.Floor(translate.Y))
+				log.Println("next position:		", math.Floor(x), math.Floor(y))
+				log.Println("ahead:				", ahead)
+
+				if ahead == 1 {
+					continue
+				}
+
 				api.GetCommandQueue().Push(NewAdvance(t.parent, 1, t.engine))
 			}
 			break

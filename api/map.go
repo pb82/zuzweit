@@ -37,7 +37,16 @@ func NewDemoMap() *Map {
 func (m *Map) Get(x, y float64) int {
 	_x := int(math.Floor(x))
 	_y := int(math.Floor(y))
+
+	if len(m.data) <= _y || len(m.data[_y]) <= _x {
+		return -1
+	}
+
 	return m.data[_y][_x]
+}
+
+func (m *Map) IsBlocked(x, y float64) bool {
+	return m.Get(x, y) == 1
 }
 
 func (m *Map) GetPlayerStart() (float64, float64) {

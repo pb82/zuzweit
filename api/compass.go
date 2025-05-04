@@ -1,7 +1,6 @@
 package api
 
 import (
-	"log"
 	"math"
 )
 
@@ -47,13 +46,9 @@ func (c *Compass) GetRadians() float64 {
 }
 
 func (c *Compass) GetDirection() Direction {
-	increment := math.Pi / 4
-	steps := int(math.Abs(c.radians) / increment)
-	positions := [4]Direction{North, East, South, West}
-
-	log.Println(c.radians, steps)
-
-	return positions[steps%4]
+	steps := int(math.Abs(c.radians) / (math.Pi / 2))
+	options := []Direction{North, East, South, West}
+	return options[steps%len(options)]
 }
 
 func (c *Compass) TurnLeft() float64 {

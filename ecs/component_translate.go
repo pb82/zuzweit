@@ -2,7 +2,6 @@ package ecs
 
 import (
 	"github.com/hajimehoshi/ebiten/v2"
-	api2 "github.com/pb82/mini3d/api"
 	"zuzweit/api"
 )
 
@@ -33,12 +32,34 @@ func (t *TranslateComponent) Type() ComponentType {
 	return TranslateComponentType
 }
 
-func (t *TranslateComponent) Increment(x, y float64) api2.Vector3d {
-	return api2.Vector3d{
-		X: t.X + x,
-		Y: t.Y + y,
-		Z: 0,
-		W: 0,
+func (t *TranslateComponent) NextPosition(backwards bool) (float64, float64) {
+	switch t.Compass.GetDirection() {
+	case api.North:
+		if !backwards {
+			return t.X, t.Y + 1
+		} else {
+			return t.X, t.Y - 1
+		}
+	case api.South:
+		if !backwards {
+			return t.X, t.Y - 1
+		} else {
+			return t.X, t.Y + 1
+		}
+	case api.East:
+		if !backwards {
+			return t.X - 1, t.Y
+		} else {
+			return t.X + 1, t.Y
+		}
+	case api.West:
+		if !backwards {
+			return t.X + 1, t.Y
+		} else {
+			return t.X - 1, t.Y
+		}
+	default:
+		return -1, -1
 	}
 }
 
