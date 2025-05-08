@@ -46,9 +46,23 @@ func (c *Compass) GetRadians() float64 {
 }
 
 func (c *Compass) GetDirection() Direction {
-	steps := int(math.Abs(c.radians) / (math.Pi / 2))
-	options := []Direction{North, East, South, West}
-	return options[steps%len(options)]
+	rad := math.Mod(c.radians, 2*math.Pi)
+	if rad < 0 {
+		rad += 2 * math.Pi
+	}
+
+	deg := rad * 180 / math.Pi
+
+	switch {
+	case deg >= 45 && deg < 135:
+		return East
+	case deg >= 135 && deg < 225:
+		return South
+	case deg >= 225 && deg < 315:
+		return West
+	default:
+		return North
+	}
 }
 
 func (c *Compass) TurnLeft() float64 {

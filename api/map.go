@@ -24,7 +24,7 @@ func NewDemoMap() *Map {
 	return &Map{
 		data: [][]int{
 			{1, 1, 1, 1, 1, 1},
-			{1, 0, 1, 0, 0, 1},
+			{1, 0, 1, 0, 1, 1},
 			{1, 0, 1, 0, 0, 1},
 			{1, 0, 1, 1, 0, 1},
 			{1, 0, 0, 0, 2, 1},
@@ -43,10 +43,6 @@ func (m *Map) Get(x, y float64) int {
 	}
 
 	return m.data[_y][_x]
-}
-
-func (m *Map) IsBlocked(x, y float64) bool {
-	return m.Get(x, y) == 1
 }
 
 func (m *Map) GetPlayerStart() (float64, float64) {

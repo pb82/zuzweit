@@ -24,11 +24,16 @@ type GameScene struct {
 
 func (s *GameScene) Load(state api.GameState, sm stagehand.SceneController[api.GameState]) {
 	s.BaseScene.Load(state, sm)
-	
+
+	mesh, err := mini3d.LoadWavefrontObj("./assets/cube_walls.obj")
+	if err != nil {
+		panic(err)
+	}
+
 	for y := 0; y < s.context.Map.H; y++ {
 		for x := 0; x < s.context.Map.W; x++ {
 			if s.context.Map.Get(float64(x), float64(y)) == 1 {
-				cube := mini3d.ColoredCube()
+				cube := mesh.Copy()
 				cube.Translate(float64(x), 0, float64(y))
 				s.context.Engine.AddMesh(cube)
 			}

@@ -1,28 +1,22 @@
 package main
 
 import (
-	"bytes"
 	_ "embed"
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/joelschutz/stagehand"
 	mini3d "github.com/pb82/mini3d/api"
 	"image/color"
+	_ "image/png"
 	"zuzweit/api"
 	"zuzweit/ecs"
 	"zuzweit/scenes"
 )
 
-//go:embed assets/tiles.png
-var _tiles []byte
-var tiles *ebiten.Image
+//go:embed assets/atlas.png
+var _atlasBytes []byte
 
 //go:embed assets/font.ttf
 var _font []byte
-
-func init() {
-	_, _, _ = ebitenutil.NewImageFromReader(bytes.NewReader(_tiles))
-}
 
 // draw used by the mini3d engine to draw a 3d scene on a canvas
 func draw(x, y int, c color.Color, userData mini3d.UserData) {
@@ -36,9 +30,13 @@ func draw(x, y int, c color.Color, userData mini3d.UserData) {
 }
 
 func main() {
+	atlas := &api.TextureAtlasImpl{}
+	atlas.LoadTexture(_atlasBytes)
+
 	entityManager := ecs.NewEntityManager()
 	engineOpts := &mini3d.EngineOptions{
-		TextureAtlas: nil,
+		YOrigin:      mini3d.YOriginLowerLeft,
+		TextureAtlas: atlas,
 	}
 
 	engine := mini3d.NewEngine(api.InternalWidth, api.InternalHeight, 90, draw, engineOpts)
