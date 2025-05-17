@@ -15,6 +15,7 @@ type GameContext struct {
 	Engine   *mini3d.Engine
 	Canvas   Canvas
 	Map      *Map
+	Atlas    mini3d.TextureAtlas
 }
 
 // Clear clears the canvas (set all pixels to black)

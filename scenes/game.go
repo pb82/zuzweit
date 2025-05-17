@@ -3,10 +3,10 @@ package scenes
 import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/joelschutz/stagehand"
-	mini3d "github.com/pb82/mini3d/api"
 	"image/color"
 	"zuzweit/api"
 	"zuzweit/ecs"
+	"zuzweit/util"
 )
 
 var (
@@ -25,17 +25,20 @@ type GameScene struct {
 func (s *GameScene) Load(state api.GameState, sm stagehand.SceneController[api.GameState]) {
 	s.BaseScene.Load(state, sm)
 
-	mesh, err := mini3d.LoadWavefrontObj("./assets/cube_walls.obj")
-	if err != nil {
-		panic(err)
-	}
-
 	for y := 0; y < s.context.Map.H; y++ {
 		for x := 0; x < s.context.Map.W; x++ {
 			if s.context.Map.Get(float64(x), float64(y)) == 1 {
-				cube := mesh.Copy()
+				cube := util.CubeWithTexture(0, 0, s.context.Atlas)
 				cube.Translate(float64(x), 0, float64(y))
 				s.context.Engine.AddMesh(cube)
+			} else if s.context.Map.Get(float64(x), float64(y)) == 0 || s.context.Map.Get(float64(x), float64(y)) == 2 {
+				cube := util.CubeWithTexture(1, 0, s.context.Atlas)
+				cube.Translate(float64(x), -1, float64(y))
+				s.context.Engine.AddMesh(cube)
+
+				cube2 := util.CubeWithTexture(0, 1, s.context.Atlas)
+				cube2.Translate(float64(x), 1, float64(y))
+				s.context.Engine.AddMesh(cube2)
 			}
 		}
 	}

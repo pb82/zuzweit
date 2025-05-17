@@ -12,7 +12,7 @@ import (
 	"zuzweit/scenes"
 )
 
-//go:embed assets/atlas.png
+//go:embed assets/atlas2.png
 var _atlasBytes []byte
 
 //go:embed assets/font.ttf
@@ -35,7 +35,7 @@ func main() {
 
 	entityManager := ecs.NewEntityManager()
 	engineOpts := &mini3d.EngineOptions{
-		YOrigin:      mini3d.YOriginLowerLeft,
+		YOrigin:      mini3d.YOriginUpperLeft,
 		TextureAtlas: atlas,
 	}
 
@@ -51,6 +51,7 @@ func main() {
 		Engine: engine,
 		Canvas: make([]byte, api.InternalWidth*api.InternalHeight*4),
 		Map:    gameMap,
+		Atlas:  atlas,
 	}
 	state := api.GameState{}
 
